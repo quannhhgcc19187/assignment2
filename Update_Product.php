@@ -4,33 +4,33 @@
 <?php
 	include_once("connection.php");
 	function bind_Category_List($conn,$selectedValue){
-		$sqlstring="SELECT Cat_ID, Cat_Name from category";
-		$result=mysqli_query($conn,$sqlstring);
+		$sqlstring="SELECT cat_id, catname from category";
+		$result=pg_query($conn,$sqlstring);
 		echo"<Select name='CategoryList' class='form-control'>
 			<option value='0'>Choose category</option>";
-			while($row=mysqli_fetch_array($result, MYSQLI_ASSOC)){
-				if($row['Cat_ID']==$selectedValue){
-					echo"<option value='". $row['Cat_ID']."' selected>".$row['Cat_Name']."</option>";
+			while($row=pg_fetch_array($result,Null, PGSQL_ASSOC)){
+				if($row['cat_id']==$selectedValue){
+					echo"<option value='". $row['cat_id']."' selected>".$row['cat_name']."</option>";
 				}
 				else{
-					echo"<option value='". $row['Cat_ID']."'>".$row['Cat_Name']."</option>";
+					echo"<option value='". $row['cat_id']."'>".$row['cat_name']."</option>";
 				}
 			}
 	echo"</select>";
 	}
 	if(isset($_GET["id"])){
 		$id=$_GET["id"];
-		$sqlstring="SELECT Product_Name, Price, SmallDesc, DetailDesc, ProDate, Pro_qty,
-		Pro_image, Cat_ID from product where Product_ID='$id'";
-		$result=mysqli_query($conn,$sqlstring);
-		$row=mysqli_fetch_array($result, MYSQLI_ASSOC);
-		$proname=$row["Product_Name"];
-		$short=$row['SmallDesc'];
-		$detail=$row['DetailDesc'];
-		$price=$row['Price'];
-		$qty=$row['Pro_qty'];
-		$pic=$row['Pro_image'];
-		$category=$row['Cat_ID'];
+		$sqlstring="SELECT product_name, price, smalldesc, detaildesc, prodate, pro_qty,
+		pro_image, cat_id from product where product_id='$id'";
+		$result=pg_query($conn,$sqlstring);
+		$row=pg_fetch_array($result,Null, PGSQL_ASSOC);
+		$proname=$row["product_name"];
+		$short=$row['smalldesc'];
+		$detail=$row['detaildesc'];
+		$price=$row['price'];
+		$qty=$row['pro_qty'];
+		$pic=$row['pro_image'];
+		$category=$row['cat_id'];
 	
 ?>
 <div class="container">
@@ -162,16 +162,16 @@
 			    if($pic['type']=="image/jpg" || $pic['type']=="image/jpeg" ||$pic['type']=="image/png"
 			        ||$pic['type']=="image/gif"){
 				    if($pic['size']<= 614400){
-					    $sq="SELECT * from product where Product_ID != '$id' and Product_Name='$proname'";
-					    $result=mysqli_query($conn,$sq);
-					    if(mysqli_num_rows($result)==0){
+					    $sq="SELECT * from product where product_id != '$id' and product_Name='$proname'";
+					    $result=pg_query($conn,$sq);
+					    if(pg_num_rows($result)==0){
 						        copy($pic['tmp_name'], "product-imgs/".$pic['name']);
 						        $filePic = $pic['name'];
-						        $sqlstring="UPDATE product set Product_Name='$proname', Price=$price, SmallDesc='$short',
-						        DetailDesc='$detail', Pro_qty=$qty,
-						        Pro_image='$filePic',Cat_ID='$category',
-						        ProDate='".date('Y-m-d H:i:s')."' WHERE Product_ID='$id'";
-						        mysqli_query($conn,$sqlstring);
+						        $sqlstring="UPDATE product set product_name='$proname', price=$price, smalldesc='$short',
+						        detaildesc='$detail', pro_qty=$qty,
+						        pro_image='$filePic'cat_id='$category',
+						        prodate='".date('Y-m-d H:i:s')."' WHERE product_id='$id'";
+						        pg_query($conn,$sqlstring);
 						        echo '<meta http-equiv="refresh" content="0;URL=?page=product_management"/>';
 					        }	
 				        }
@@ -184,13 +184,13 @@
 			        }		
 		    }
 		    else{
-				$sq="SELECT * from product where Product_ID != '$id' and Product_Name='$proname'";
-				$result=mysqli_query($conn,$sq);
-				if(mysqli_num_rows($result)==0){
-					$sqlstring="UPDATE product set Product_Name='$proname',
-					Price=$price, SmallDesc='$short', DetailDesc='$detail',
-					Pro_qty=$qty, Cat_ID='$category',
-					ProDate='".date('Y-m-d H:i:s')."' WHERE Product_ID='$id'";
+				$sq="SELECT * from product where product_id != '$id' and product_name='$proname'";
+				$result=pg_query($conn,$sq);
+				if(pg_num_rows($result)==0){
+					$sqlstring="UPDATE product set product_name='$proname',
+					price=$price, smalldesc='$short', detaildesc='$detail',
+					pro_qty=$qty, cat_id='$category',
+					prodate='".date('Y-m-d H:i:s')."' WHERE product_id='$id'";
 					mysqli_query($conn,$sqlstring);
 					echo '<meta http-equiv="refresh" content="0;URL=?page=product_management"/>';
 				}

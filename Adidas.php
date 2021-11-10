@@ -14,25 +14,25 @@ include_once("connection.php");
                         <!--Load san pham tu DB -->
                            <?php
 						  // 	include_once("database.php")
-		  				   	$result = mysqli_query($conn, "SELECT * FROM product WHERE Cat_ID='C001'" );
+		  				   	$result = pg_query($conn, "SELECT * FROM product WHERE cat_id='C001'" );
 			
 			                if (!$result) { //add this check.
-                                die('Invalid query: ' . mysqli_error($conn));
+                                die('Invalid query: ' . pg_error($conn));
                             }
 		
 			            
-			                while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+			                while($row = pg_fetch_array($result,Null, PGSQL_ASSOC)){
 				            ?>
 				            <!--Một sản phẩm -->
                             <div class="single-product">
                                 <div class="product-f-image">
-                                    <img src="product-imgs/<?php echo $row['Pro_image']?>" width="150" height="150"><a href="?page=quanly_chitietsanpham&ma=<?php echo  $row['Product_ID']?>" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                                    <img src="product-imgs/<?php echo $row['pro_image']?>" width="150" height="150">
                                 </div>
                                 
-                                <h2><a href="?page=quanly_chitietsanpham&ma=<?php echo  $row['Product_ID']?>"><?php echo $row['Product_Name']?></a></h2>
+                                <h2><a href="?page=quanly_chitietsanpham&ma=<?php echo  $row['product_id']?>"><?php echo $row['product_name']?></a></h2>
                                 
                                 <div class="product-carousel-price">
-                                    <ins><?php echo  $row['Price']?></ins>
+                                    <ins><?php echo  $row['price']?></ins>
                                 </div> 
                             </div>
                 <?php
