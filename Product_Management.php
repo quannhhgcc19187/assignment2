@@ -52,7 +52,7 @@
                 FROM product a, category b
                 WHERE a.cat_id=b.cat_id ORDER BY prodate DESC");
 
-                while($row=pg_fetch_array($result,Null, MYSQLI_ASSOC)){
+                while($row=pg_fetch_array($result,Null, PGSQL_ASSOC)){
 			?>
             <tr>
                <td><?php echo $No; ?></td>

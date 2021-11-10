@@ -2,8 +2,8 @@
 if(isset($_GET["ma"]))
 	{
 		$id = $_GET["ma"]; 
-		$result = mysqli_query($conn,"SELECT Product_Name, Price, DetailDesc, ProDate, Pro_image,Pro_qty, Cat_Name FROM product , category WHERE product.Cat_ID=category.Cat_ID and Product_ID='$id'"); 
-		$row= mysqli_fetch_array($result, MYSQLI_ASSOC);
+		$result = pg_query($conn,"SELECT Product_Name, Price, DetailDesc, ProDate, Pro_image,Pro_qty, Cat_Name FROM product , category WHERE product.Cat_ID=category.Cat_ID and Product_ID='$id'"); 
+		$row= pg_fetch_array($result, PGSQL_ASSOC);
     }
 ?>
 <table>

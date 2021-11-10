@@ -22,7 +22,7 @@ include_once("connection.php");
                             }
 		
 			            
-			                while($row = pg_fetch_array($result,Null, MYSQLI_ASSOC)){
+			                while($row = pg_fetch_array($result,Null, PGSQL_ASSOC)){
 				            ?>
 				            <!--Một sản phẩm -->
                             <div class="single-product">

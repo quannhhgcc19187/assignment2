@@ -191,7 +191,7 @@
 					price=$price, smalldesc='$short', detaildesc='$detail',
 					pro_qty=$qty, cat_id='$category',
 					prodate='".date('Y-m-d H:i:s')."' WHERE product_id='$id'";
-					mysqli_query($conn,$sqlstring);
+					pg_query($conn,$sqlstring);
 					echo '<meta http-equiv="refresh" content="0;URL=?page=product_management"/>';
 				}
 				else{
