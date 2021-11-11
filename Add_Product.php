@@ -8,7 +8,7 @@
 		echo "<SELECT name='CategoryList' class='form-control'>
 		<option value='0'>Choose category</option>";
 		while ($row = pg_fetch_array($result,Null, PGSQL_ASSOC)){
-			echo "<option value='".$row['cat_id']."'>".$row['catname']."</option>";
+			echo "<option value='".$row['cat_id']."'>".$row['cat_name']."</option>";
 		}
 		echo "</select>";
 	}
@@ -92,6 +92,12 @@
                 </div>   
                 <div class="form-group">   
                     <label for="" class="col-sm-2 control-label">Product category(*):  </label>
+							<div class="col-sm-10">
+							      <?php bind_Category_List($conn);  ?>
+							</div>
+                </div>
+				<div class="form-group">   
+                    <label for="" class="col-sm-2 control-label">Shop(*):  </label>
 							<div class="col-sm-10">
 							      <?php bind_Category_List($conn);  ?>
 							</div>
