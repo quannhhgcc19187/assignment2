@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sport Shop</title>
+    <title>ATN Shop</title>
     
     <!-- Google Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,700,600' rel='stylesheet' type='text/css'>
@@ -124,7 +124,7 @@
 	</header><!--/header-->
     <div id="welcome">
             <marquee direction="left" behavior="scroll" scrollamount="4">
-                Welcome to the ATN shop
+            Welcome to the ATN shop, a store that specializes in toys for teenagers
             </marquee>
     </div>
   
