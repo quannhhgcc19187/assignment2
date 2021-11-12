@@ -97,6 +97,7 @@
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="?page=category_management">Category</a></li>
 										<li><a href="?page=product_management">Product</a></li>
+                                        <li><a href="?page=shop_management">Shop</a></li>
                                     </ul>
                                 </li>
                                 <?php
@@ -149,6 +150,9 @@ include_once("Add_Category.php");
 }
 elseif($page=="update_category"){
 include_once("Update_Category.php");
+}
+elseif($page=="product_management"){
+include_once("Shop_management.php");
 }
 elseif($page=="add_product"){
 include_once("Add_Product.php");
