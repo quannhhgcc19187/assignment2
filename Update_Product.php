@@ -100,8 +100,7 @@
 							</div>
                 </div>
       
-               
-                            
+                                        
             	<div class="form-group">  
                     <label for="lblSoLuong" class="col-sm-2 control-label">Quantity(*):  </label>
 							<div class="col-sm-10">
