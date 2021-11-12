@@ -45,7 +45,7 @@
             <?php
               include_once("connection.php");
               $No=1;
-              $result = pg_query($conn, "SELECT * FROM category");
+              $result = pg_query($conn, "SELECT * FROM shop");
               while($row=pg_fetch_array($result,Null, PGSQL_ASSOC))
               {
             ?>
