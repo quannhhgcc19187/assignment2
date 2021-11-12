@@ -53,14 +53,14 @@
             if(isset($_GET["function"])=="del"){
                 if(isset($_GET["id"])){
                     $id = $_GET["id"];
-                    pg_query($conn, "DELETE FROM category WHERE cat_id='$id'");
+                    pg_query($conn, "DELETE FROM shop WHERE shop_id='$id'");
                 }
             }
             ?>
 			<tr>
               <td class="cotCheckBox"><?php echo $No; ?></td>
-              <td><?php echo $row["cat_id"]; ?></td>
-              <td><?php echo $row["cat_name"]; ?></td>
+              <td><?php echo $row["shop_id"]; ?></td>
+              <td><?php echo $row["shop_name"]; ?></td>
               <td><?php echo $row["address"]; ?></td>
               <td><?php echo $row["phone"]; ?></td>
               <td><?php echo $row["email"]; ?></td>
