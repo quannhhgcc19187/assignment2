@@ -1,7 +1,7 @@
 <?php
 //Get custmer information
 include_once("connection.php");
-$query ="SELECT cusname, address, email, telephone FROM customer WHERE username='".$_SESSION["us"]. "'";
+$query ="SELECT cusname, address, email, telephone FROM public.customer WHERE username='".$_SESSION["us"]. "'";
 $result = pg_query($conn,$query) or die(pg_error($conn));
 $row=pg_fetch_array($result,Null, PGSQL_ASSOC);
 
@@ -39,7 +39,7 @@ if(isset($_POST['btnUpdate'])){
 	if($test==""){
 		if($_POST['txtPass1'] !=""){
 		$pass=md5($_POST['txtPass1']);
-		$sq="UPDATE customer SET custName='$fullname', address='$address', telephone='$telephone', password='$pass' WHERE username='".$_SESSION['us']."'";
+		$sq="UPDATE customer SET custname='$fullname', address='$address', telephone='$telephone', password='$pass' WHERE username='".$_SESSION['us']."'";
 		pg_query($conn,$sq) or die(pg_error($conn));
 	}
 	else{
