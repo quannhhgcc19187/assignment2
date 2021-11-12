@@ -151,7 +151,7 @@ include_once("Add_Category.php");
 elseif($page=="update_category"){
 include_once("Update_Category.php");
 }
-elseif($page=="product_management"){
+elseif($page=="shop_management"){
 include_once("Shop_management.php");
 }
 elseif($page=="add_product"){
