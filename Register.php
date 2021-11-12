@@ -5,60 +5,74 @@
 <script src="js/jquery-3.2.0.min.js"/></script>
 <script src="js/jquery.dataTables.min.js"/></script>
 <script src="js/dataTables.bootstrap.min.js"/></script>
-<?php
-    if(isset($_POST['btnRegister'])){
-        $us = $_POST['txtUsername'];
-        $pass1 = $_POST['txtPass1'];
-        $pass2 = $_POST['txtPass2'];
-        $fullname = $_POST['txtFullname'];
-        $email = $_POST['txtEmail'];
-        $address = $_POST['txtAddress'];
-        $tel = $_POST['txtTel'];
     
+<?php
+if(isset($_POST['btnRegister']))
+{
+    $us = $_POST['txtUsername'];
+    $pass1 = $_POST['txtPass1'];
+    $pass2 = $_POST['txtPass2'];
+    $fullname = $_POST['txtFullname'];
+    $email = $_POST['txtEmail'];
+    $address = $_POST['txtAddress'];
+    $tel = $_POST['txtTel'];
+
     if(isset($_POST['grpRender'])){
         $sex = $_POST['grpRender'];
     }
+
     $date = $_POST['slDate'];
     $month = $_POST['slMonth'];
-    $years = $_POST['slYear'];
+    $year = $_POST['slYear'];
 
-    $err ="";
-    if($us=="" || $pass1=="" || $pass2=="" || $fullname=="" || $email=="" || $address=="" ||!isset($sex)){
-        $err .="<li>Enter fields with mark (*), please</li>";
+    $err = "";
+
+    if($us==""||$pass1==""||$pass2==""||$fullname==""||$email==""||$address==""||!isset($sex)){
+        $err .= "<li>Enter fields with mark (*), please</li>";
     }
 
     if(strlen($pass1)<=5){
-        $err .="<li>Password must be greater than 5 chars</li>";
+        $err .= "<li>Password must be greater than 5 chars</li>";
     }
 
     if($pass1!=$pass2){
-        $err .="<li>Password and confirm password are the same</li>";
+        $err .= "<li>Password and confirm password are the same</li>";
     }
 
     if($_POST['slYear']=="0"){
-        $err .="<li>Choose Year of Birth, please</li>";
+        $err .= "<li>Choose year of birth, please</li>";
     }
 
-    if($err!=""){
+    if($err!= ""){
         echo $err;
     }
+
     else{
-        include_once("connection.php");
+        include_once("Connection.php");
         $pass = md5($pass1);
-        $sq = "SELECT * FROM customer WHERE username='$us' OR email='$email'";
-        $res = mysqli_query($conn,$sq);
-        if(mysqli_num_rows($res)==0)
+        $sq = "SELECT * FROM public.customer WHERE username='$us' OR email='$email'";
+        $res = pg_query($conn,$sq);
+        if(pg_num_rows($res)==0)
         {
-            mysqli_query($conn, "INSERT INTO customer (username, password, custName, gender, address,telephone, email, cusdate, cusmonth,cusyear, ssn, activedode, state)
-            VALUES ('$us','$pass','$fullname','$sex','$address','$tel','$email','$date','$month','$years','','',0)") or die (pg_error($conn));
-            echo "You have register successfully";
+            pg_query($conn, "INSERT INTO customer (username, password, 
+            custname, gender, address, telephone, email, cusdate, cusmonth, 
+            cusyear, ssn, activecode, state)
+
+            VALUES('$us', '$pass', '$fullname', '$sex', '$address', '$tel', '$email', '$date', 
+            '$month', '$year', '', '', 0)") or die(pg_error($conn));
+            echo '<meta http-equiv="refresh" content="0;URL=?page=login"/>';
         }
         else{
             echo "Username or email already exists";
         }
+        echo "Register successfully ";
     }
 }
+
+
 ?>
+
+
 <div class="container">
         <h2>Member Registration</h2>
 			 	<form id="form1" name="form1" method="post" action="" class="form-horizontal" role="form">
@@ -75,7 +89,7 @@
 							<div class="col-sm-10">
 							      <input type="password" name="txtPass1" id="txtPass1" class="form-control" placeholder="Password"/>
 							</div>
-                       </div>     
+</div>     
                        
                        <div class="form-group"> 
                             <label for="" class="col-sm-2 control-label">Confirm Password(*):  </label>
@@ -129,7 +143,7 @@
                             <label for="lblNgaySinh" class="col-sm-2 control-label">Date of Birth(*):  </label>
                             <div class="col-sm-10 input-group">
                                 <span class="input-group-btn">
-                                  <select name="slDate" id="slDate" class="form-control" >
+<select name="slDate" id="slDate" class="form-control" >
                 						<option value="0">Choose Date</option>
 										<?php
                                             for($i=1;$i<=31;$i++)
@@ -170,7 +184,5 @@
                               	
 						</div>
                      </div>
-				</form>
+</form>
 </div>
-    
-
