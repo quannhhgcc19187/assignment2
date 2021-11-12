@@ -16,16 +16,16 @@
 			if($id==""){
 				$err .="<li>Enter Shop ID, please</li>";
 			}
-			if($name==""){
+			else if($name==""){
 				$err .="<li>Enter Shop Name, please</li>";
 			}
-            if($address==""){
+            else if($address==""){
 				$err .="<li>Enter Shop Address, please</li>";
 			}
-			if($phone==""){
+			else if($phone==""){
 				$err .="<li>Enter Shop Phone, please</li>";
 			}
-            if($email==""){
+            else if($email==""){
 				$err .="<li>Enter Shop Email, please</li>";
 			}
 			if($err!="")
