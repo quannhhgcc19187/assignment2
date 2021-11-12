@@ -12,6 +12,16 @@
 		}
 		echo "</select>";
 	}
+	function bind_Shop_List($conn){
+		$sqlstring = "SELECT shop_id, shop_name from shop";
+		$result = pg_query($conn, $sqlstring);
+		echo "<SELECT name='CategoryList' class='form-control'>
+		<option value='0'>Choose shop</option>";
+		while ($row = pg_fetch_array($result,Null, PGSQL_ASSOC)){
+			echo "<option value='".$row['shop_id']."'>".$row['shop_name']."</option>";
+		}
+		echo "</select>";
+	}
 	 if(isset($_POST["btnAdd"]))
 	 {
 		 $id = $_POST["txtID"];
@@ -99,7 +109,7 @@
 				<div class="form-group">   
                     <label for="" class="col-sm-2 control-label">Shop(*):  </label>
 							<div class="col-sm-10">
-							      <?php bind_Category_List($conn);  ?>
+							      <?php bind_Shop_List($conn);  ?>
 							</div>
                 </div>  
                           
