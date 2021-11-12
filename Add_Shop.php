@@ -13,17 +13,17 @@
 			$phone = $_POST["txtPhone"];
             $email = $_POST["txtEmail"];
 			$err="";
-			if($id==""){
+			if(trim($id)==""){
 				$err .="<li>Enter Shop ID, please</li>";
 			}
-			else if($name==""){
+			else if(trim($name)==""){
 				$err .="<li>Enter Shop Name, please</li>";
 			}
             else if($address==""){
 				$err .="<li>Enter Shop Address, please</li>";
 			}
-			else if($phone==""){
-				$err .="<li>Enter Shop Phone, please</li>";
+			if(!is_numeric($phone)){
+				$err .="<li>Phone must be number, please</li>";
 			}
             else if($email==""){
 				$err .="<li>Enter Shop Email, please</li>";
@@ -35,9 +35,6 @@
 			else{
                 $id = htmlspecialchars(pg_real_escape_string($conn, $id));
 				$name = htmlspecialchars(pg_real_escape_string($conn, $name));
-                $id = htmlspecialchars(pg_real_escape_string($conn, $address));
-				$name = htmlspecialchars(pg_real_escape_string($conn, $phone));
-                $id = htmlspecialchars(pg_real_escape_string($conn, $email));
 				$sq = "SELECT * from shop where shop_id='$id' or cat_name='$name'";
 				$result = pg_query($conn,$sq);
 				if(pg_num_rows($result)==0)
