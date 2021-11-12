@@ -32,7 +32,7 @@
 				}
 				else
 				{
-					echo "<li>Duplicate Supplier ID or Name</li>";
+					echo "<li>Duplicate Cateogry ID or Name</li>";
 				}
 			}
 		}
