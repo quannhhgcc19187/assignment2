@@ -4,7 +4,7 @@
 <?php
 	include_once("connection.php");
 	function bind_Category_List($conn,$selectedValue){
-		$sqlstring="SELECT cat_id, catname from category";
+		$sqlstring="SELECT cat_id, cat_name from category";
 		$result=pg_query($conn,$sqlstring);
 		echo"<Select name='CategoryList' class='form-control'>
 			<option value='0'>Choose category</option>";
@@ -14,6 +14,21 @@
 				}
 				else{
 					echo"<option value='". $row['cat_id']."'>".$row['cat_name']."</option>";
+				}
+			}
+	echo"</select>";
+	}
+	function bind_Shop_List($conn,$selectedValue){
+		$sqlstring="SELECT shop_id, shop_name from shop";
+		$result=pg_query($conn,$sqlstring);
+		echo"<Select name='CategoryList' class='form-control'>
+			<option value='0'>Choose shop</option>";
+			while($row=pg_fetch_array($result,Null, PGSQL_ASSOC)){
+				if($row['shop_id']==$selectedValue){
+					echo"<option value='". $row['shop_id']."' selected>".$row['shop_name']."</option>";
+				}
+				else{
+					echo"<option value='". $row['shop_id']."'>".$row['shop_name']."</option>";
 				}
 			}
 	echo"</select>";
