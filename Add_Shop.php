@@ -71,19 +71,19 @@
                     <div class="form-group">
 						    <label for="txtTen" class="col-sm-2 control-label">Address(*):  </label>
 							<div class="col-sm-10">
-							      <input type="text" name="txtName" id="txtName" class="form-control" placeholder="Cateogry Name" value='<?php echo isset($_POST["txtName"])?($_POST["txtName"]):"";?>'>
+							      <input type="text" name="txtName" id="txtName" class="form-control" placeholder="Shop Address" value='<?php echo isset($_POST["txtName"])?($_POST["txtName"]):"";?>'>
 							</div>
 					</div>
                     <div class="form-group">
 						    <label for="txtTen" class="col-sm-2 control-label">Phone(*):  </label>
 							<div class="col-sm-10">
-							      <input type="text" name="txtName" id="txtName" class="form-control" placeholder="Cateogry Name" value='<?php echo isset($_POST["txtName"])?($_POST["txtName"]):"";?>'>
+							      <input type="text" name="txtName" id="txtName" class="form-control" placeholder="Shop Phone" value='<?php echo isset($_POST["txtName"])?($_POST["txtName"]):"";?>'>
 							</div>
 					</div>
                     <div class="form-group">
 						    <label for="txtTen" class="col-sm-2 control-label">Email(*):  </label>
 							<div class="col-sm-10">
-							      <input type="text" name="txtName" id="txtName" class="form-control" placeholder="Cateogry Name" value='<?php echo isset($_POST["txtName"])?($_POST["txtName"]):"";?>'>
+							      <input type="text" name="txtName" id="txtName" class="form-control" placeholder="Shop Email" value='<?php echo isset($_POST["txtName"])?($_POST["txtName"]):"";?>'>
 							</div>
 					</div>
 					<div class="form-group">
