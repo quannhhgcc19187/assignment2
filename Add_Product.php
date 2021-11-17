@@ -91,6 +91,7 @@
 							<div class="col-sm-10">
 							      <input type="text" name="txtID" id="txtID" class="form-control" placeholder="Product ID" value="<?php if(isset($id)) echo $id?>"/>
 							</div>
+</div>		
                 
 				<div class="form-group"> 
 					<label for="txtTen" class="col-sm-2 control-label">Product Name(*):  </label>
@@ -147,7 +148,6 @@
 				<div class="form-group">  
 	                <label for="lblImage" class="col-sm-2 control-label">Image(*):  </label>
 							<div class="col-sm-10">
-							
 							      <input type="file" name="txtImage" id="txtImage" class="form-control" value=""/>
 							</div>
                 </div>
