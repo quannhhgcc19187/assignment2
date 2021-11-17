@@ -103,7 +103,7 @@
 							</div>
                 </div> 
 				<div class="form-group">   
-                    <label for="" class="col-sm-2 control-label">Shop(*):  </label>
+                    <label for="" class="col-sm-2 control-label">Shop	(*):  </label>
 							<div class="col-sm-10">
 							      <?php bind_Shop_List($conn);  ?>
 							</div>
