@@ -24,7 +24,7 @@
         <form name="frm" method="post" action="">
         <h1>Shop</h1>
         <p>
-        <img src="images/add.png" alt="Add new" width="16" height="16" border="0" /> <a href="?page=add_shop"> Add new</a>
+        <img src="images/add.png" alt="Add new" width="16" height="16" border="0" /> <a href="?page=addshop"> Add new</a>
         </p>
         <table id="tableshop" class="table table-striped table-bordered" cellspacing="0" width="100%">
             
