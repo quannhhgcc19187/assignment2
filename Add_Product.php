@@ -81,72 +81,79 @@
 ?>
    
 <div class="container">
-	<h2>Adding Product</h2>
+	<h2>Adding new Product</h2>
 
 	 	<form id="frmProduct" name="frmProduct" method="post" enctype="multipart/form-data" action="" class="form-horizontal" role="form">
-         
-         <form id="frmProduct" name="frmProduct" method="post" enctype="multipart/form-data" action="" class="form-horizontal" role="form">
 				<div class="form-group">
 					<label for="txtTen" class="col-sm-2 control-label">Product ID(*):  </label>
 							<div class="col-sm-10">
-							      <input type="text" name="txtID" id="txtID" class="form-control" placeholder="Product ID" value="<?php if(isset($id)) echo $id?>"/>
+							      <input type="text" name="txtID" id="txtID" class="form-control" placeholder="Product ID" value=''/>
 							</div>
-</div>		
-                
-				<div class="form-group"> 
-					<label for="txtTen" class="col-sm-2 control-label">Product Name(*):  </label>
+				</div> 
+				<div class="form-group">
+                <label for="txtTen" class="col-sm-2 control-label">Product Name(*):  </label>
 							<div class="col-sm-10">
-								  <input type="text" name="txtName" id="txtName" class="form-control" 
-								  placeholder="Product Name" value=''/>
+							      <input type="text" name="txtName" id="txtName" class="form-control" placeholder="Product Name" value=''/>
 							</div>
                 </div>   
+                <div class="form-group">   
+                    <label for="" class="col-sm-2 control-label">Product category(*):  </label>
+							<div class="col-sm-10">
+							      <?php bind_Category_List($conn);  ?>
+							</div>
+                </div>  
                           
                 <div class="form-group">  
                     <label for="lblGia" class="col-sm-2 control-label">Price(*):  </label>
 							<div class="col-sm-10">
-							      <input type="text" name="txtPrice" id="txtPrice" class="form-control" placeholder="Price" value="<?php if(isset($price)) echo $price?>"/>
+							      <input type="text" name="txtPrice" id="txtPrice" class="form-control" placeholder="Price" value=''/>
 							</div>
                  </div>   
-
-                 <div class="form-group">   
-                    <label for="" class="col-sm-2 control-label">Product category(*):  </label>
-							<div class="col-sm-10">
-                            
-							      <?php bind_Category_List($conn); ?>
-							</div>
-                </div>  
                             
                 <div class="form-group">   
-                    <label for="lblShort" class="col-sm-12 control-label">Short description(*):  </label>
+                    <label for="lblShort" class="col-sm-2 control-label">Short description(*):  </label>
 							<div class="col-sm-10">
-							      <input type="text" name="txtShort" id="txtShort" class="form-control" placeholder="Short description" value="<?php if(isset($short)) echo $short?>"/>
+							      <input type="text" name="txtShort" id="txtShort" class="form-control" placeholder="Short description" value=''/>
 							</div>
                 </div>
-
-				<div class="form-group">   
-                    <label for="" class="col-sm-2 control-label">Shop(*):  </label>
-							<div class="col-sm-10">
                             
-							      <?php bind_ShopList($conn); ?>
-							</div>
-                </div> 
-				       
-                <div class="form-group">   
-                    <label for="lblDetail" class="col-sm-2 control-label">Detail Description(*):  </label>
+                <div class="form-group">  
+        	        <label for="lblDetail" class="col-sm-2 control-label">Detail description(*):  </label>
 							<div class="col-sm-10">
-							      <textarea type="text" name="txtDetail" id="txtDetail" class="form-control" style="height: 150px" row="4" value=""></textarea>
+							      <textarea name="txtDetail" rows="4" class="ckeditor"></textarea>
+              					  <script language="javascript">
+                                        CKEDITOR.replace( 'txtDetail',
+                                        {
+                                            skin : 'kama',
+                                            extraPlugins : 'uicolor',
+                                            uiColor: '#eeeeee',
+                                            toolbar : [ ['Source','DocProps','-','Save','NewPage','Preview','-','Templates'],
+                                                ['Cut','Copy','Paste','PasteText','PasteWord','-','Print','SpellCheck'],
+                                                ['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
+                                                ['Form','Checkbox','Radio','TextField','Textarea','Select','Button','ImageButton','HiddenField'],
+                                                ['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
+                                                ['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],
+                                                ['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
+                                                ['Link','Unlink','Anchor', 'NumberedList','BulletedList','-','Outdent','Indent'],
+                                                ['Image','Flash','Table','Rule','Smiley','SpecialChar'],
+                                                ['Style','FontFormat','FontName','FontSize'],
+                                                ['TextColor','BGColor'],[ 'UIColor' ] ]
+                                        });
+										
+                                    </script> 
+                                  
 							</div>
                 </div>
                             
             	<div class="form-group">  
-                    <label for="lblQty" class="col-sm-2 control-label">Quantity(*):  </label>
+                    <label for="lblSoLuong" class="col-sm-2 control-label">Quantity(*):  </label>
 							<div class="col-sm-10">
-							      <input type="number" name="txtQty" id="txtQty" class="form-control" placeholder="Quantity" value="<?php if(isset($qty)) echo $qty?>"/>
+							      <input type="number" name="txtQty" id="txtQty" class="form-control" placeholder="Quantity" value=""/>
 							</div>
                 </div>
  
 				<div class="form-group">  
-	                <label for="lblImage" class="col-sm-2 control-label">Image(*):  </label>
+	                <label for="sphinhanh" class="col-sm-2 control-label">Image(*):  </label>
 							<div class="col-sm-10">
 							      <input type="file" name="txtImage" id="txtImage" class="form-control" value=""/>
 							</div>
@@ -154,11 +161,10 @@
                         
 				<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
-						      <input type="submit"  class="site-btn" name="btnAdd" id="btnAdd" value="Add" onclick="window.location='?page=pm'" />
-                              <input type="button" class="site-btn" name="btnIgnore"  id="btnIgnore" value="Ignore" onclick="window.location='?page=pm'" />
+						      <input type="submit"  class="btn btn-primary" name="btnAdd" id="btnAdd" value="Add new"/>
+                              <input type="button" class="btn btn-primary" name="btnIgnore"  id="btnIgnore" value="Ignore" onclick="window.location='?page=product_management'" />
                               	
 						</div>
 				</div>
 			</form>
-			</div>
 </div>
