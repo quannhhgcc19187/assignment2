@@ -12,13 +12,13 @@
 		echo "</select>";	
 		}
 
-		function bind_Shop_List($conn) {
-			$sqlstring = "SELECT shop_id, shop_name from public.store";
+		function bind_Store_List($conn) {
+			$sqlstring = "SELECT store_id, detail_address from public.store";
 			$result = pg_query($conn, $sqlstring);
 			echo "<SELECT name='StoreList' class='form-control'>
 				<option value='0'>Choose store</option>";
 				while ($row = pg_fetch_array($result, NULL, PGSQL_ASSOC)) {
-					echo "<option value='".$row['shop_id']."'>".$row['shop_name']."</option>";
+					echo "<option value='".$row['store_id']."'>".$row['detail_address']."</option>";
 				}
 			echo "</select>";	
 			}
@@ -27,44 +27,44 @@
 		{
 			$id = $_POST["txtID"];
 			$id = htmlspecialchars(pg_escape_string($conn, $id));
-		    $proname = $_POST["txtName"];
+			$proname = $_POST['txtName'];
 			$proname = htmlspecialchars(pg_escape_string($conn, $proname));
-		    $short = $_POST["txtShort"];
-			$short = htmlspecialchars(pg_escape_string($conn, $short));
-		    $detail = $_POST['txtDetail'];
-			$detail = htmlspecialchars(pg_escape_string($conn, $detail));
-		    $price = $_POST['txtPrice'];
-			$price = htmlspecialchars(pg_escape_string($conn, $price));
-		    $qty = $_POST['txtQty'];
+			$qty = $_POST['txtQty'];
 			$qty = htmlspecialchars(pg_escape_string($conn, $qty));
-	    	$pic = $_FILES['txtImage'];
-		    $category = $_POST['CategoryList'];
+			$price = $_POST['txtPrice'];
+			$price = htmlspecialchars(pg_escape_string($conn, $price));
+			$des = $_POST['txtDescription'];
+			$des = htmlspecialchars(pg_escape_string($conn, $des));
+			$category = $_POST['CategoryList'];
 			$category = htmlspecialchars(pg_escape_string($conn, $category));
-			$shop = $_POST['StoreList'];
-			$shop = htmlspecialchars(pg_escape_string($conn, $shop));
-		    $err = "";
+			$store = $_POST['StoreList'];
+			$store = htmlspecialchars(pg_escape_string($conn, $store));
+			$pic = $_FILES['txtImage'];
+			$err="";
 
-			if(trim($id)==""){
-				$err .="<li>Enter product ID, please</li>";
+			if(trim($id)=="")
+			{
+				echo "<script>alert('Enter product ID please')</script>";
 			}
-			if(trim($proname)==""){
-			   $err .="<li>Enter product name, please</li>";
-		    }
-		    if($category=="0"){
-			   $err .="<li>Choose product category, please</li>";
-		    }
-			if($shop=="0"){
-				$err .="<li>Choose shop, please</li>";
-			 }
-		    if(!is_numeric($price)){
-			   $err .="<li>Product price must be number, please</li>";
-		    }
-		    if(!is_numeric($qty)){
-			   $err .="<li>Product quantiy must be number, please</li>";
-		    }
-		    if($err !=""){
-			   echo "<ul>$err</ul>";
-		   }
+			elseif(trim($proname)=="")
+			{
+				echo "<script>alert('Enter product name please')</script>";
+			}
+			elseif($category =="0")
+			{
+				echo "<script>alert('Choose category please')</script>";
+			}
+			elseif($store =="0")
+			{
+				echo "<script>alert('Choose store please')</script>";
+			}
+			elseif(!is_numeric($qty))
+			{
+				echo "<script>alert('Product quantity must be a number')</script>";
+			}
+			elseif(!is_numeric($price)){
+				echo "<script>alert('Product price must be a number')</script>";
+			}
 			
 			else
 			{
@@ -72,16 +72,15 @@
 				{
 					if ($pic['size'] <= 614400)
 					{
-						$sq = "SELECT * FROM public.product WHERE product_id='$id' OR pro_name='$proname'";
+						$sq = "SELECT * FROM public.product WHERE pro_id='$id' OR pro_name='$proname'";
 						$result = pg_query($conn, $sq);
 						
 						if(pg_num_rows($result)==0)
 						{
 							copy($pic['tmp_name'], "product_image/".$pic['name']);
 							$filePic = $pic['name'];
-							$sqlstring = "INSERT INTO product(
-								product_id, product_Name, price, smalldesc, detaildesc, prodate, pro_qty, pro_image, cat_id, shop_id)
-								VALUES ('$id', '$proname', '$price', '$short', '$detail', '".date('Y-m-d H:i:s')."', '$qty', '$filePic', '$category,'$shop')";
+							$sqlstring = "INSERT INTO product (pro_id, pro_name, pro_qty, price, pro_desc, cat_id, image, store_id)
+							VALUES('$id', '$proname', $qty, $price, '$des', '$category', '$filePic', '$store')";
 							pg_query($conn, $sqlstring);
 							echo '<meta http-equiv="refresh" content="0;URL=index.php?page=product"/>';
 						}
@@ -105,90 +104,43 @@
 	}
 ?>
 <div class="container">
-	<h2>Adding new Product</h2>
+  <h2 align="center">Add new product</h2>
+  <form id="frmProduct" name="frmProduct" method="post" enctype="multipart/form-data" class="form-horizontal" role="form">
+    <div class="form-group">
+      <label>Product ID:</label>
+      <input type="text" name="txtID" id="txtID" class="form-control" placeholder="Enter product ID" value="" />
+    </div>
+    <div class="form-group">
+      <label>Product name:</label>
+      <input type="text" name="txtName" id="txtName" class="form-control" placeholder="Enter product name" value="" />
+    </div>
+    <div class="form-group">
+      <label>Quantity:</label>
+      <input type="text" name="txtQty" id="txtQty" class="form-control" placeholder="Enter quantity">
+    </div>
+    <div class="form-group">
+      <label>Price:</label>
+      <input type="text" name="txtPrice" id="txtPrice" id="txtFullname" class="form-control" id="" placeholder="Enter price">
+    </div>
+    <div class="form-group">
+      <label>Description:</label>
+      <input type="text" name="txtDescription" class="form-control" id="" placeholder="Enter description">
+	</div>
+    <div class="form-group">
+      <label>Product category:</label>
+        <?php bind_Category_List($conn); ?>
+    </div>
 
-	 	<form id="frmProduct" name="frmProduct" method="post" enctype="multipart/form-data" action="" class="form-horizontal" role="form">
-				<div class="form-group">
-					<label for="txtTen" class="col-sm-2 control-label">Product ID(*):  </label>
-							<div class="col-sm-10">
-							      <input type="text" name="txtID" id="txtID" class="form-control" placeholder="Product ID" value=''/>
-							</div>
-				</div> 
-				<div class="form-group">
-                <label for="txtTen" class="col-sm-2 control-label">Product Name(*):  </label>
-							<div class="col-sm-10">
-							      <input type="text" name="txtName" id="txtName" class="form-control" placeholder="Product Name" value=''/>
-							</div>
-                </div>   
-                <div class="form-group">   
-                    <label for="" class="col-sm-2 control-label">Product category(*):  </label>
-							<div class="col-sm-10">
-							      <?php bind_Category_List($conn);  ?>
-							</div>
-                </div>
-				<div class="form-group">   
-                    <label for="" class="col-sm-2 control-label">Shop(*):  </label>
-							<div class="col-sm-10">
-							      <?php bind_Shop_List($conn);  ?>
-							</div>
-                </div>  
-                          
-                <div class="form-group">  
-                    <label for="lblGia" class="col-sm-2 control-label">Price(*):  </label>
-							<div class="col-sm-10">
-							      <input type="text" name="txtPrice" id="txtPrice" class="form-control" placeholder="Price" value=''/>
-							</div>
-                 </div>     
-                
-                            
-                <div class="form-group">  
-        	        <label for="lblDetail" class="col-sm-2 control-label">Detail description(*):  </label>
-							<div class="col-sm-10">
-							      <textarea name="txtDetail" rows="4" class="ckeditor"></textarea>
-              					  <script language="javascript">
-                                        CKEDITOR.replace( 'txtDetail',
-                                        {
-                                            skin : 'kama',
-                                            extraPlugins : 'uicolor',
-                                            uiColor: '#eeeeee',
-                                            toolbar : [ ['Source','DocProps','-','Save','NewPage','Preview','-','Templates'],
-                                                ['Cut','Copy','Paste','PasteText','PasteWord','-','Print','SpellCheck'],
-                                                ['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
-                                                ['Form','Checkbox','Radio','TextField','Textarea','Select','Button','ImageButton','HiddenField'],
-                                                ['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
-                                                ['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],
-                                                ['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
-                                                ['Link','Unlink','Anchor', 'NumberedList','BulletedList','-','Outdent','Indent'],
-                                                ['Image','Flash','Table','Rule','Smiley','SpecialChar'],
-                                                ['Style','FontFormat','FontName','FontSize'],
-                                                ['TextColor','BGColor'],[ 'UIColor' ] ]
-                                        });
-										
-                                    </script> 
-                                  
-							</div>
-                </div>
-                            
-            	<div class="form-group">  
-                    <label for="lblSoLuong" class="col-sm-2 control-label">Quantity(*):  </label>
-							<div class="col-sm-10">
-							      <input type="number" name="txtQty" id="txtQty" class="form-control" placeholder="Quantity" value=""/>
-							</div>
-                </div>
- 
-				<div class="form-group">  
-	                <label for="sphinhanh" class="col-sm-2 control-label">Image(*):  </label>
-							<div class="col-sm-10">
-							      <input type="file" name="txtImage" id="txtImage" class="form-control" value=""/>
-							</div>
-                </div>
-                        
-				<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-						      <input type="submit"  class="btn btn-primary" name="btnAdd" id="btnAdd" value="Add new"/>
-                              <input type="button" class="btn btn-primary" name="btnIgnore"  id="btnIgnore" value="Ignore" onclick="window.location='?page=product_management'" />
-                              	
-						</div>
-				</div>
-			</form>
+	<div class="form-group">
+      <label>Store:</label>
+        <?php bind_Store_List($conn); ?>
+    </div>
+
+    <div class="form-group">
+      <label>Image:</label>
+      <input type="file" name="txtImage" id="txtImage" class="form-control" value=""/>
+    </div>
+    <button type="submit" class="btn btn-primary"  name="btnAdd" id="btnAdd">Submit</button>
+    <button type="button" class="btn btn-danger" name="" id="" onclick="window.location='index.php?page=product'">Cancel</button>
+  </form>
 </div>
