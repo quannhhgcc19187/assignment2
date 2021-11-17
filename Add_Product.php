@@ -1,89 +1,109 @@
-<link rel="stylesheet" href="css/bootstrap.min.css">
-	<script type="text/javascript" src="scripts/ckeditor/ckeditor.js"></script>
-	<?php
+<?php
+	require('requirelogin.php');
 	include_once("connection.php");
-	function bind_Category_List($conn){
+	function bind_Category_List($conn) {
 		$sqlstring = "SELECT cat_id, cat_name from category";
 		$result = pg_query($conn, $sqlstring);
 		echo "<SELECT name='CategoryList' class='form-control'>
-		<option value='0'>Choose category</option>";
-		while ($row = pg_fetch_array($result,Null, PGSQL_ASSOC)){
-			echo "<option value='".$row['cat_id']."'>".$row['cat_name']."</option>";
-		}
-		echo "</select>";
-	}
-	function bind_Shop_List($conn){
-		$sqlstring = "SELECT shop_id, shop_name from shop";
-		$result = pg_query($conn, $sqlstring);
-		echo "<SELECT name='CategoryList' class='form-control'>
-		<option value='0'>Choose shop</option>";
-		while ($row = pg_fetch_array($result,Null, PGSQL_ASSOC)){
-			echo "<option value='".$row['shop_id']."'>".$row['shop_name']."</option>";
-		}
-		echo "</select>";
-	}
-	 if(isset($_POST["btnAdd"]))
-	 {
-		 $id = $_POST["txtID"];
-		 $proname = $_POST["txtName"];
-		 $short = $_POST["txtShort"];
-		 $detail = $_POST['txtDetail'];
-		 $price = $_POST['txtPrice'];
-		 $qty = $_POST['txtQty'];
-		 $pic = $_FILES['txtImage'];
-		 $category = $_POST['CategoryList'];
-		 $err = "";
-
-		 if(trim($id)==""){
-			 $err .="<li>Enter product ID, please</li>";
-		 }
-		 if(trim($proname)==""){
-			$err .="<li>Enter product name, please</li>";
-		}
-		if($category=="0"){
-			$err .="<li>Choose product category, please</li>";
-		}
-		if(!is_numeric($price)){
-			$err .="<li>Product price must be number, please</li>";
-		}
-		if(!is_numeric($qty)){
-			$err .="<li>Product quantiy must be number, please</li>";
-		}
-		if($err !=""){
-			echo "<ul>$err</ul>";
-		}
-		else{
-			if($pic['type']=="image/jpg" || $pic['type']=="image/jpeg"  || $pic['type']=="image/png" || $pic['type']=="image/gif")
-			{
-				if($pic['size']<= 614400)
-				{
-					$sq="SELECT * FROM product where product_id='$id' or product_name='$proname'";
-					$result= pg_query($conn, $sq);
-					if(pg_num_rows($result)==0)
-					{
-					  copy($pic['tmp_name'], "product-imgs/".$pic['name']);
-					  $filePic = $pic['name'];
-					  $sqlstring = "INSERT INTO product(
-						product_id, product_name, price, smalldesc, detaildesc, prodate, pro_qty, pro_image, cat_id)
-						VALUES ('$id', '$proname', '$price', '$short', '$detail', '".date('Y-m-d H:i:s')."', '$qty', '$filePic', '$category')";
-					  pg_query($conn, $sqlstring);
-					  echo '<meta http-equiv="refresh" content="0; URL=?page=product_management" />';
-				    }
-				    else{
-					    echo "<li>Duplicate product ID or Name</li>";
-				    }
-		 	    } 
-				else{
-					echo "Size of image too big";
-				}
+			<option value='0'>Choose category</option>";
+			while ($row = pg_fetch_array($result, NULL, PGSQL_ASSOC)) {
+				echo "<option value='".$row['cat_id']."'>".$row['cat_name']."</option>";
 			}
+		echo "</select>";	
+		}
+
+		function bind_Shop_List($conn) {
+			$sqlstring = "SELECT shop_id, shop_name from public.store";
+			$result = pg_query($conn, $sqlstring);
+			echo "<SELECT name='StoreList' class='form-control'>
+				<option value='0'>Choose store</option>";
+				while ($row = pg_fetch_array($result, NULL, PGSQL_ASSOC)) {
+					echo "<option value='".$row['shop_id']."'>".$row['shop_name']."</option>";
+				}
+			echo "</select>";	
+			}
+
+		if(isset($_POST["btnAdd"]))
+		{
+			$id = $_POST["txtID"];
+			$id = htmlspecialchars(pg_escape_string($conn, $id));
+		    $proname = $_POST["txtName"];
+			$proname = htmlspecialchars(pg_escape_string($conn, $proname));
+		    $short = $_POST["txtShort"];
+			$short = htmlspecialchars(pg_escape_string($conn, $short));
+		    $detail = $_POST['txtDetail'];
+			$detail = htmlspecialchars(pg_escape_string($conn, $detail));
+		    $price = $_POST['txtPrice'];
+			$price = htmlspecialchars(pg_escape_string($conn, $price));
+		    $qty = $_POST['txtQty'];
+			$qty = htmlspecialchars(pg_escape_string($conn, $qty));
+	    	$pic = $_FILES['txtImage'];
+		    $category = $_POST['CategoryList'];
+			$category = htmlspecialchars(pg_escape_string($conn, $category));
+			$shop = $_POST['StoreList'];
+			$shop = htmlspecialchars(pg_escape_string($conn, $shop));
+		    $err = "";
+
+			if(trim($id)==""){
+				$err .="<li>Enter product ID, please</li>";
+			}
+			if(trim($proname)==""){
+			   $err .="<li>Enter product name, please</li>";
+		    }
+		    if($category=="0"){
+			   $err .="<li>Choose product category, please</li>";
+		    }
+			if($shop=="0"){
+				$err .="<li>Choose shop, please</li>";
+			 }
+		    if(!is_numeric($price)){
+			   $err .="<li>Product price must be number, please</li>";
+		    }
+		    if(!is_numeric($qty)){
+			   $err .="<li>Product quantiy must be number, please</li>";
+		    }
+		    if($err !=""){
+			   echo "<ul>$err</ul>";
+		   }
+			
 			else
 			{
-				echo "Image format is not correct";
-			}	
-		}
-	 }
-	 ?>
+				if($pic['type']=="image/jpg" || $pic['type']=="image/jpeg" || $pic['type']=="image/png"|| $pic['type']=="image/gif")
+				{
+					if ($pic['size'] <= 614400)
+					{
+						$sq = "SELECT * FROM public.product WHERE product_id='$id' OR pro_name='$proname'";
+						$result = pg_query($conn, $sq);
+						
+						if(pg_num_rows($result)==0)
+						{
+							copy($pic['tmp_name'], "product_image/".$pic['name']);
+							$filePic = $pic['name'];
+							$sqlstring = "INSERT INTO product(
+								product_id, product_Name, price, smalldesc, detaildesc, prodate, pro_qty, pro_image, cat_id, shop_id)
+								VALUES ('$id', '$proname', '$price', '$short', '$detail', '".date('Y-m-d H:i:s')."', '$qty', '$filePic', '$category,'$shop')";
+							pg_query($conn, $sqlstring);
+							echo '<meta http-equiv="refresh" content="0;URL=index.php?page=product"/>';
+						}
+						else
+						{
+							echo "<script>alert('Duplicate product ID')</script>";
+						}
+
+					}
+					else
+					{
+						echo "<script>alert('Size of the image too big')</script>";
+						
+					}
+
+				}
+				else{
+					echo "<script>alert('Image format is not correct')</script>";
+				}
+			}
+	}
+?>
 <div class="container">
 	<h2>Adding new Product</h2>
 
@@ -118,14 +138,8 @@
 							<div class="col-sm-10">
 							      <input type="text" name="txtPrice" id="txtPrice" class="form-control" placeholder="Price" value=''/>
 							</div>
-                 </div>   
-                            
-                <div class="form-group">   
-                    <label for="lblShort" class="col-sm-2 control-label">Short description(*):  </label>
-							<div class="col-sm-10">
-							      <input type="text" name="txtShort" id="txtShort" class="form-control" placeholder="Short description" value=''/>
-							</div>
-                </div>
+                 </div>     
+                
                             
                 <div class="form-group">  
         	        <label for="lblDetail" class="col-sm-2 control-label">Detail description(*):  </label>
