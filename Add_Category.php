@@ -24,7 +24,7 @@
 				if(pg_num_rows($result)=="0")
 				{
 					pg_query($conn, "insert into category (cat_id, cat_name) values ('$id', '$name')");
-					echo '<meta http-equiv="refresh" content="0;URL =?page=cat"';
+					echo '<meta http-equiv="refresh" content="0;URL =?page=category_management"';
 				}
 				else
 				{
@@ -53,7 +53,7 @@
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
 						      <input type="submit"  class="site-btn" name="btnAdd" id="btnAdd" value="Add new"/>
-                              <input type="button" class="site-btn" name="btnIgnore"  id="btnIgnore" value="Ignore" onclick="window.location='?page=cat'" />
+                              <input type="button" class="site-btn" name="btnIgnore"  id="btnIgnore" value="Ignore" onclick="window.location='?page=category_management'" />
                               	
 						</div>
 					</div>
